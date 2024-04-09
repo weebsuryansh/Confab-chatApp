@@ -1,0 +1,20 @@
+$pfp-color-one: #ace8d9;
+$pfp-color-two: #55aeb4;
+$pfp-color-three: #fc7f80;
+$pfp-color-four: #fddfac;
+$pfp-color-five: #7fe08a;
+$pfp-color-six: #ddfc95;
+$pfp-color-seven: #93e2fd;
+$pfp-color-eight: #30a7fd;
+
+.pfp{
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 50%;
+  color: black;
+  background-color: $pfp-color-one;
+  margin-right: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

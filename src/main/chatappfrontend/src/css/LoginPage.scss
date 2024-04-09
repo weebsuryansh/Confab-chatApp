@@ -1,0 +1,35 @@
+$rem-value: 22px;
+
+#login-page-container{
+  height: 100vh;
+
+  #empty{
+    height: 3rem;
+  }
+
+  #title-container{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    #title{
+      margin: 1.5rem;
+      font-size: 5rem;
+      height: 5.5rem;
+    }
+  }
+
+  #content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(80% - 6*$rem-value);
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
+}
+
