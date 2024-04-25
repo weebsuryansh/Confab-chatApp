@@ -18,7 +18,7 @@ const ChatPage=forwardRef(()=> {
     const navigate = useNavigate();
     const containerRef = useRef(null);
     const [stompClient, setStompClient] = useState(null);
-    const [activeUser, setActiveUser] = useState(null);
+    const [activeUser, setActiveUser] = useState({full_name:""});
     let intervalId=0;
 
     async function displayConnectedUsers(){
@@ -47,16 +47,6 @@ const ChatPage=forwardRef(()=> {
         connect();
     },[])
 
-    function onMessageReceived(payload) {
-        console.log(payload);
-        const message = JSON.parse(payload.body);
-        console.log("message",message);
-        console.log("user",activeUser);
-        if(activeUser && activeUser.nick_name===message.senderId){
-            console.log("isItBeingCalled?");
-            setMessageList(m=>[...m,message]);
-        }
-    }
     function onConnected(client) {
         client.subscribe(`/user/${nickname}/queue/messages`, onMessageReceived);
         client.subscribe(`/user.topic`, onMessageReceived);
@@ -107,12 +97,14 @@ const ChatPage=forwardRef(()=> {
         let active=connectedUserList[index];
         setActiveUser(active);
         fetchAndDisplayChat(active).then();
+        return null;
     }
 
     async function fetchAndDisplayChat(active) {
         const userChatResponse = await fetch(`http://localhost:8080/messages/${nickname}/${active.nick_name}`);
         const chat = await userChatResponse.json();
         setMessageList([...chat]);
+        return null;
     }
 
     function handleMessageChange(event){
@@ -146,7 +138,24 @@ const ChatPage=forwardRef(()=> {
                 content: messageContent,
                 timestamp: date
             }]);
+            const messageBox = document.querySelector("#message");
+            messageBox.value="";
         }
+    }
+
+    function onMessageReceived(payload) {
+        console.log(payload);
+        const message = JSON.parse(payload.body);
+        console.log("message",message);
+        console.log("user",activeUser);
+        if(activeUser && activeUser.nick_name===message.senderId){
+            fetchAndDisplayChat(activeUser).then();
+        }
+    }
+
+    function logOut() {
+        console.log("clicked");
+        navigate('/',{replace:true});
     }
 
     return (
@@ -172,10 +181,11 @@ const ChatPage=forwardRef(()=> {
                                 {fullname}
                             </div>
                         </p>
-                        <a className="logout" id="logout">Logout</a>
+                        <div className="logout" id="logout" onClick={logOut}>Logout</div>
                     </div>
                 </div>
                 <div id={"chat-area"}>
+                    <div id={"recipient-user"}>{activeUser.full_name}</div>
                     <div id={"chat-messages"} ref={containerRef}>
                         {messageList.map((message,index)=>{
                             if(message.senderId===nickname){

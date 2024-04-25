@@ -22,7 +22,7 @@ public class ChatMessageService {
     }
 
     public List<ChatMessage> findChatMessage(String senderId, String recipientID){
-        var chatId = chatRoomService.getChatRoomId(senderId,recipientID,false);
-        return chatId.map(chatMessageRepository::findByChatId).orElse(new ArrayList<>());
+        String chatId = String.valueOf(chatRoomService.getChatRoomId(senderId,recipientID,false));
+        return new ArrayList<>(chatMessageRepository.findAllByChatId(chatId));
     }
 }
