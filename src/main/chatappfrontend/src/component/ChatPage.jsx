@@ -163,7 +163,7 @@ const ChatPage=forwardRef(()=> {
             <div id={"chat-container"}>
                 <div id={"user-list"}>
                     <div id={"header"}>
-                        <h2>
+                        <h2 id={"header-text"}>
                             Online users
                         </h2>
                     </div>
